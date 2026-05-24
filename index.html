@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Labelbook</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:FILL@0..1&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet" />
+    <script type="module" crossorigin src="/labelbook-web/assets/index-68eU3S_Q.js"></script>
+    <link rel="stylesheet" crossorigin href="/labelbook-web/assets/index-D2hEAi_N.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 36 36" focusable="false">
+              <rect class="brand-mark-bg" x="3" y="3" width="30" height="30" rx="8" />
+              <path class="brand-mark-book" d="M8.5 10.5c3.8-.6 6.6.1 9.5 2.1 2.9-2 5.7-2.7 9.5-2.1v15.7c-3.7-.6-6.7.1-9.5 2-2.8-1.9-5.8-2.6-9.5-2z" />
+              <path class="brand-mark-spine" d="M18 12.6v15.6" />
+              <path class="brand-mark-line" d="M11.5 15.1c1.8-.1 3.2.2 4.6 1M11.5 18.5c1.8-.1 3.2.2 4.6 1" />
+              <path class="brand-mark-label" d="M20.3 16.1 24 12.4h4v4l-3.7 3.7-4-4Z" />
+              <circle class="brand-mark-hole" cx="24" cy="15.9" r="0.9" />
+            </svg>
+          </span>
+          <span>Labelbook</span>
+        </div>
+        <nav class="top-nav" aria-label="주요 화면">
+          <button class="nav-item active" data-view="notes">
+            <span class="material-symbols-outlined">lightbulb</span>
+            <span>노트</span>
+          </button>
+          <button class="nav-item" data-view="labels">
+            <span class="material-symbols-outlined">sell</span>
+            <span>라벨</span>
+          </button>
+          <button class="nav-item" data-view="sync">
+            <span class="material-symbols-outlined">settings</span>
+            <span>동기화</span>
+          </button>
+        </nav>
+        <div class="top-actions">
+          <button id="syncPullBtn" class="icon-button" type="button" title="저장소에서 가져오기" aria-label="저장소에서 가져오기">
+            <span class="material-symbols-outlined">cloud_download</span>
+          </button>
+          <button id="localCommitBtn" class="text-button top-commit-button" type="button" title="로컬 저장소에만 커밋">
+            <span class="material-symbols-outlined">commit</span>
+            <span>로컬 커밋</span>
+          </button>
+          <button id="syncPushBtn" class="text-button primary top-commit-button" type="button" title="커밋 후 업로드">
+            <span class="material-symbols-outlined">cloud_upload</span>
+            <span>업로드</span>
+          </button>
+        </div>
+      </header>
+
+      <main class="content">
+        <section id="notesView" class="view active">
+          <div class="notes-layout">
+            <aside class="notes-sidebar">
+              <label class="search">
+                <span class="material-symbols-outlined">search</span>
+                <input id="searchInput" type="search" placeholder="노트 검색" autocomplete="off" />
+              </label>
+              <button id="clearSidebarFiltersBtn" class="sidebar-clear-filter" type="button">
+                <span class="material-symbols-outlined">filter_alt_off</span>
+                필터 초기화
+              </button>
+              <div id="labelFilterList" class="label-tree"></div>
+            </aside>
+
+            <div class="notes-main">
+              <div class="notes-toolbar">
+                <button id="newNoteBtn" class="text-button primary" type="button">
+                  <span class="material-symbols-outlined">add</span>
+                  새 노트
+                </button>
+                <div id="activeFilters" class="active-filters"></div>
+              </div>
+
+              <div id="notesGrid" class="notes-grid"></div>
+              <div id="emptyNotes" class="empty-state">
+                <span class="material-symbols-outlined">note_stack</span>
+                <p>조건에 맞는 노트가 없습니다.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="labelsView" class="view">
+          <div id="labelDetailBar" class="label-detail-bar"></div>
+          <div id="labelGraph" class="label-relations"></div>
+        </section>
+
+        <section id="syncView" class="view">
+          <div class="section-head">
+            <div>
+              <h1>동기화 설정</h1>
+              <p>클라우드 동기화와 데스크톱 Git/GitHub vault를 관리합니다.</p>
+            </div>
+          </div>
+          <div class="sync-mode-panel">
+            <div>
+              <h2>동기화 방식</h2>
+            </div>
+            <div class="sync-mode-actions" role="group" aria-label="동기화 방식">
+              <button class="text-button primary" type="button" data-sync-mode="supabase">
+                <span class="material-symbols-outlined">cloud_sync</span>
+                클라우드
+              </button>
+              <button class="text-button" type="button" data-sync-mode="git">
+                <span class="material-symbols-outlined">account_tree</span>
+                Git / GitHub
+              </button>
+            </div>
+          </div>
+          <div class="sync-panel" data-sync-mode-panel="git">
+            <label class="wide">
+              <span>저장소 폴더</span>
+              <div class="path-picker">
+                <input id="vaultPath" autocomplete="off" placeholder="D:\Labelbook" />
+                <button id="browseVaultBtn" class="icon-button" type="button" title="저장소 폴더 선택">
+                  <span class="material-symbols-outlined">folder_open</span>
+                </button>
+              </div>
+            </label>
+            <label>
+              <span>Branch</span>
+              <input id="gitBranch" autocomplete="off" placeholder="main" />
+            </label>
+            <label class="wide">
+              <span>Origin remote</span>
+              <div class="path-picker">
+                <input id="gitRemote" autocomplete="off" placeholder="origin remote 없음" readonly />
+                <button id="remoteSettingsBtn" class="icon-button" type="button" title="원격 설정">
+                  <span class="material-symbols-outlined">settings</span>
+                </button>
+              </div>
+            </label>
+            <div class="sync-actions">
+              <button id="testConnectionBtn" class="text-button" type="button">
+                <span class="material-symbols-outlined">verified</span>
+                저장소 확인
+              </button>
+            </div>
+          </div>
+          <div class="web-sync-panel" data-sync-mode-panel="supabase">
+            <div>
+              <h2>클라우드 동기화</h2>
+              <p>로그인하면 여러 기기에서 같은 노트를 동기화합니다.</p>
+            </div>
+            <div class="sync-actions">
+              <span id="supabaseAccount" class="sync-account" hidden></span>
+              <button id="supabaseSignInBtn" class="text-button primary" type="button">
+                <span class="material-symbols-outlined">login</span>
+                로그인
+              </button>
+              <button id="supabaseSignOutBtn" class="text-button" type="button">
+                <span class="material-symbols-outlined">logout</span>
+                로그아웃
+              </button>
+              <button id="supabaseDownloadBtn" class="text-button" type="button">
+                <span class="material-symbols-outlined">download</span>
+                데이터 다운로드
+              </button>
+            </div>
+          </div>
+          <div id="syncChanges" class="change-list" data-sync-mode-panel="git"></div>
+          <pre id="syncStatus" class="sync-status">아직 동기화하지 않았습니다.</pre>
+        </section>
+      </main>
+    </div>
+
+    <template id="noteTemplate">
+      <article class="note-card">
+        <div class="note-card-head">
+          <h2></h2>
+        </div>
+        <p class="note-body"></p>
+        <div class="note-labels"></div>
+      </article>
+    </template>
+
+  </body>
+</html>
