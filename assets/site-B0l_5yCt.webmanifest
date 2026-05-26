@@ -1,0 +1,16 @@
+{
+  "name": "Labelbook",
+  "short_name": "Labelbook",
+  "icons": [
+    {
+      "src": "./favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f7f1df",
+  "theme_color": "#254236"
+}
